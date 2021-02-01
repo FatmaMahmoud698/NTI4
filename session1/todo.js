@@ -47,6 +47,16 @@ const addNewTask = function (id, title, content, type, status=false){
 const showAllTasks=function(){
     console.log(tasks)
 }
-
-addNewTask(Date.now(),'wwwwwwwwwwwwwwwww','bwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww','c')
-showAllTasks()
+function getbyId (id) {
+    return tasks.find(x => x.id == id);
+}
+function getByTitle(title) {
+    x = tasks.filter(task=>{
+        return task.title==title
+    })
+    return x
+}
+// addNewTask(Date.now(),'Ahmed','anbvcgjuiytrfghb','c')
+// showAllTasks()
+console.log(getByTitle('Ahmed'))
+console.log(getbyId(1612201592290))

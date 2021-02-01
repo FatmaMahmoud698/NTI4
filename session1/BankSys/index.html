@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank System</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<section class="container border border-2 my-3">
+    <input class="btn btn-success" value="Add Customer" onclick="showHide('addCst')">
+    <input class="btn btn-success" value="Show All Customers" onclick="showHide('showAll')">
+</section>
+<section id="addCst" class="container border border-2 my-3 d-none">
+    <form class="p-2">
+      <div class="mb-3">
+        <label class="form-label">Customer ID</label>
+        <input type="text" class="form-control" placeholder="Customer ID">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Customer Name</label>
+        <input type="text" class="form-control" placeholder="Customer Name">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Customer Balance</label>
+        <input type="text" class="form-control" placeholder="Customer Balance">
+      </div>
+      <input type="submit" class="btn btn-success" value="Add Customer">
+    </form>
+</section>
+<section id="editCst" class="container border border-2 my-3 d-none">
+  <form class="p-2">
+    <div class="mb-3">
+      <label class="form-label">Customer ID</label>
+      <input type="text" class="form-control" placeholder="Customer ID">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Customer Name</label>
+      <input type="text" class="form-control" placeholder="Customer Name">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Customer Balance</label>
+      <input type="text" class="form-control" placeholder="Customer Balance">
+    </div>
+    <input type="submit" class="btn btn-success" value="Edit Customer">
+  </form>
+</section>
+<section id="showAll" class="container border border-2 my-3 d-none">
+  <table class="table border">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</section>
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="custom.js"></script>
+</body>
+</html>
