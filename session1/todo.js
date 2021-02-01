@@ -7,7 +7,13 @@ const validateData = function(item, validationObj){
         if(option=='required'){
             if(!item || item == '')  errors.push('required')
         }
-        else if(option=='unique'){}
+        else if(option=='unique'){
+            tasks.forEach(task =>{
+                if((task[validationObj[option]])==item){
+                    errors.push('Unique')
+                }
+            })
+        }
         else if(option=='minlength'){
             value = validationObj[option]
             if(item.length<value) errors.push(`minimum length must be more than ${value}`)
@@ -21,8 +27,18 @@ const validateData = function(item, validationObj){
 }
 const addNewTask = function (id, title, content, type, status=false){
     const task={ id, title, content, type, status }
-    titleValidation = validateData(title,{required:true, unique:'title', minlength:5})
-    if(titleValidation.length>0) console.log(titleValidation)
+    myValidators={
+        id:validateData(id,{required:true}),
+        title:validateData(title,{required:true, minlength:5, maxlength:20}),
+        content:validateData(content,{required:true, minlength:15}),
+        type:validateData(type,{required:true})
+    }
+    myValidatorsKeys=Object.keys(myValidators);
+    validationErrFlag=false
+    myValidatorsKeys.forEach(key=>{
+        if(myValidators[key].length>0) validationErrFlag=true
+    })
+    if(validationErrFlag) console.log(myValidators)
     else{
         tasks.push(task)
         localStorage.setItem('tasks',JSON.stringify(tasks))
@@ -32,5 +48,5 @@ const showAllTasks=function(){
     console.log(tasks)
 }
 
-addNewTask(1,'wwwwwwwwwwwwwwwww','b','c')
+addNewTask(Date.now(),'wwwwwwwwwwwwwwwww','bwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww','c')
 showAllTasks()
