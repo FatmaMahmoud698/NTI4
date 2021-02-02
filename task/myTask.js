@@ -8,33 +8,62 @@ function getCustomers(){
 const saveCustomers = function(){
     localStorage.setItem('customers', JSON.stringify(customers))
 }
+const delCustomer= function (id){
+    customers = customers.filter(cust=>{
+        return cust['accNum']!=id
+    })
+    localStorage.setItem('customers', JSON.stringify(customers))
+}
+const editCustomer = function(btnEdit,index){
+    showHide(btnEdit, 'editCustomer', 'edit','edit')
+    let ele = document.querySelector('#editForm').elements
+    ele.cName.value = customers[index]['cName']
+    ele.balance.value = customers[index]['balance']
+    ele.editAction.value = index
+}
+const createNewElement = (elementName,parent,txt='', classes='') =>{
+    element = document.createElement(elementName)
+    if(classes!='') element.className = classes
+    if(txt!='')element.textContent = txt
+    parent.appendChild(element)
+    return element
+}
 const showAllCustomers = function(){
     customers = getCustomers()
     tableBody = document.querySelector('tbody')
     tableBody.innerText=''
-    customers.forEach(customer=>{
-        let tr = document.createElement('tr')
-        addTd(tr,customer.accNum,'textContent')
-        addTd(tr,customer.cName,'textContent')
-        addTd(tr,customer.balance,'textContent')
-        addTd(tr,'<button class ="btn btn-danger mx-2" onclick="deleteCst('+customer.accNum+')">delete</button><button class ="btn btn-success mx-2">edit</button>','innerHTML')
-        tableBody.appendChild(tr)
+    customers.forEach((customer,index)=>{
+        tr=createNewElement('tr',tableBody)
+        td1=createNewElement('td',tr,customer.accNum)
+        td2=createNewElement('td',tr,customer.cName)
+        td2=createNewElement('td',tr,customer.balance)
+        td3=createNewElement('td',tr)
+        td4=createNewElement('td',tr)
+        creatBtnEve(td3,index,'edit','btn btn-warning')
+        creatBtnEve(td3,customer.accNum,'delete','btn btn-danger','showAll')
+        creatBtnEve(td4,index,'Add Balance','btn btn-success')
+        creatBtnEve(td4,index,'Withdraw Balance','btn btn-danger')
     })
-    console.log(customers)
 }
 const addCustomer = function(customer){
     customers.push(customer)
     saveCustomers()
 }
 const showHide = function(btnName,sectionId,txt1, txt2) {
+    document.querySelector('#searchAcc').value=''
+    btnName != addbtn ? addbtn.textContent='Add Customer' : null 
+    btnName != showAllBtn ? showAllBtn.textContent='Show All Customers' :null
+    btnName != showBtn ? showBtn.textContent='Show Customer':null
     document.querySelectorAll('section').forEach((section, index)=>{
         if(index!=0) section.classList.add('d-none')
     })
-    if(btnName.textContent == txt1 ){
-        btnName.textContent=txt2
-        document.querySelector(`#${sectionId}`).classList.remove('d-none');
-    }else{
-        btnName.textContent=txt1
+    if(btnName){
+        if(btnName.textContent == txt1 ){
+            btnName.textContent=txt2
+            document.querySelector(`#${sectionId}`).classList.remove('d-none');
+        }else{
+            btnName.textContent=txt1
+        }
     }
     
 }
@@ -42,7 +71,7 @@ addbtn.addEventListener('click', function(){
     showHide(addbtn, 'addCustomer', 'Add Customer','Hide Customer')
 })
 showAllBtn.addEventListener('click',function(e){
-    showHide(showAllBtn, 'allCustomers', 'show All Customer','Hide customers')
+    showHide(showAllBtn, 'allCustomers', 'Show All Customers','Hide Customers')
     showAllCustomers();
 })
 document.querySelector('#addForm').addEventListener('submit',function(e){
@@ -57,47 +86,85 @@ document.querySelector('#addForm').addEventListener('submit',function(e){
     this.reset()
     showHide()
 })
-const addTd=function(tr,value,type){
-    td = document.createElement('td')
-    td[type]=value
-    tr.appendChild(td)
-}
-function deleteCst(id){
-    customers = customers.filter(customer=>{
-        return customer['accNum']!=id
-    })
-    localStorage.setItem('customers', JSON.stringify(customers))
-    showAllCustomers()
-}
-function editCst(id){
-    let cust = customers.filter(customer=>{
-        return customer['accNum']==id
-    })
-    let section = document.querySelector('#addCustomer');
-    section.classList.remove('d-none');
-    document.querySelector('#allCustomers').classList.add('d-none');   
-    let elements=document.querySelector('#addForm').elements
-    console.log(elements)
-    elements['cName'].value=cust[0].cName
-    elements['balance'].value=cust[0].balance
-    elements[2].value='Edit Customer'
-
-}
 showBtn.addEventListener('click',function(e){
-    showHide(showBtn, 'searchForm', 'show Customer','Hide Customer')
+    showHide(showBtn, 'searchForm', 'Show Customer','Hide Customer')
 })
 document.querySelector('#searchAcc').addEventListener('input',function(e){
-    let cust = customers.filter(customer=>{
+    let cust= customers.filter(customer=>{
         return customer['accNum']==this.value
     })
-    console.log(cust[0]["accNum"])
+    
+    let section = document.querySelector('#singleCustomer')
+    section.classList.remove('d-none');
     if(cust.length!=0){
-        console.log(cust[0]["accNum"])
-        let section = document.querySelector('#singleCustomer')
-        section.classList.remove('d-none');
-        section.innerHTML='<div><span>'+cust[0]["accNum"]+'</span><h3>'+cust[0]["cName"]+'</h3><h4>'+cust[0]["balance"]+' $</h4></div>';
+        let indexCust=customers.findIndex(customer => customer.accNum == cust[0]['accNum'])
+        section.innerHTML=''
+        let table=createNewElement('table',section,'','table')
+
+        let thead=createNewElement('thead',table)
+        let tr1=createNewElement('tr',thead)
+        let th1=createNewElement('th',tr1,'id')
+        let th2=createNewElement('th',tr1,'Name')
+        let th3=createNewElement('th',tr1,'Balance')
+        let th4=createNewElement('th',tr1,'actions')
+        let th5=createNewElement('th',tr1,'Control Balance')
+
+        let tbody=createNewElement('tbody',table)
+        let tr2=createNewElement('tr',tbody)
+        let td1=createNewElement('td',tr2,cust[0]['accNum'])
+        let td2=createNewElement('td',tr2,cust[0]['cName'])
+        let td3=createNewElement('td',tr2,cust[0]['balance'])
+        let td4=createNewElement('td',tr2)
+        let td5=createNewElement('td',tr2)
+        creatBtnEve(td4,indexCust,'edit','btn btn-warning')
+        creatBtnEve(td4,cust[0]['accNum'],'delete','btn btn-danger','search')
+        creatBtnEve(td5,indexCust,'Add Balance','btn btn-success')
+        creatBtnEve(td5,indexCust,'Withdraw Balance','btn btn-danger')
+        
     }else{
-        console.log('Not Found')      
+        section.innerHTML=''
+        let div=createNewElement('div',section,'Not Found','bg-danger')     
     }
     
 })
+document.querySelector('#editForm').addEventListener('submit',function(e){
+    e.preventDefault()
+    const ele = this.elements
+    let index= ele.editAction.value
+    customers[index]['cName']=ele.cName.value
+    customers[index]['balance']=ele.balance.value
+    saveCustomers()
+    showHide()
+})
+document.querySelector('#balanceForm').addEventListener('submit',function(e){
+    e.preventDefault()
+    const ele = this.elements
+    let index= ele.cstIndex.value
+    let operation=ele.balanceBtn.value
+    operation=='Withdraw Balance'?
+        `${customers[index]['balance'] -= ele.balance.value}` :
+        customers[index]['balance']=parseInt(customers[index]['balance'],10)+parseInt(ele.balance.value,10)
+    saveCustomers()
+    showHide()
+})
+const creatBtnEve = function(parent,customer,type,classes,status=false){
+    let btn=createNewElement('button',parent,type,classes)
+    btn.addEventListener('click', (e)=>{
+        if(type=='edit'){
+            editCustomer(btn,customer)
+        }else if(type=='delete'){
+            delCustomer(customer)
+            if(status=='search') parent.parentNode.remove()
+            else if(status=='showAll') showAllCustomers()
+        }else if(type=='Add Balance'||type=='Withdraw Balance'){
+            controlBalance(btn,customer,type)
+        }
+    })
+}
+const controlBalance = function(btn,index,operation){
+    showHide(btn, 'balanceSection',operation,operation)
+    let ele = document.querySelector('#balanceForm').elements
+    ele.balance.value=''
+    ele.cstIndex.value = index
+    ele.balanceBtn.value = operation
+}
