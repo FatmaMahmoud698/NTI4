@@ -1,0 +1,18 @@
+{
+  "name": "fatma",
+  "version": "3.0.5",
+  "description": "nodels",
+  "main": "index.js",
+  "dependencies": {
+    "validator": "^13.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "fatma",
+  "license": "ISC"
+}

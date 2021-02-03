@@ -80,14 +80,28 @@ showBtn.addEventListener('click',function(e){
 document.querySelector('#addForm').addEventListener('submit',function(e){
     e.preventDefault()
     const ele = this.elements
+    let cName=ele.cName.value
+    let balance=ele.balance.value
     let user = {
         accNum : Date.now(),
-        cName: ele.cName.value,
-        balance: ele.balance.value
+        cName: cName,
+        balance: balance
     }
-    addCustomer(user)
-    this.reset()
-    showHide()
+    myValidators={
+        Name:validateData(cName,{required:true, minlength:5, maxlength:100}),
+        Balance:validateData(balance,{required:true, min:100,max:10000}),
+    }
+    myValidatorsKeys=Object.keys(myValidators);
+    validationErrFlag=false
+    myValidatorsKeys.forEach(key=>{
+        if(myValidators[key].length>0) validationErrFlag=true
+    })
+    if(validationErrFlag) console.log(myValidators)
+    else{
+        addCustomer(user)
+        this.reset()
+        showHide()
+    }
 })
 document.querySelector('#searchAcc').addEventListener('input',function(e){
     let cust= customers.filter(customer=>{
@@ -165,4 +179,37 @@ const controlBalance = function(btn,index,operation){
     ele.balance.value=''
     ele.cstIndex.value = index
     ele.balanceBtn.value = operation
+}
+const validateData = function(item, validationObj){
+    let errors=[]
+    options = Object.keys(validationObj)
+    options.forEach(option => {
+    if(option=='required'){
+        if(!item || item == '')  errors.push('required')
+    }
+    else if(option=='unique'){
+        tasks.forEach(task =>{
+            if((task[validationObj[option]])==item){
+                errors.push('Unique')
+            }
+        })
+    }
+    else if(option=='minlength'){
+        value = validationObj[option]
+        if(item.length<value) errors.push(`minimum length must be more than ${value}`)
+    }
+    else if(option=='maxlength'){
+        value = validationObj[option]
+        if(item.length>value) errors.push(`maximum length must be less than ${value}`)
+    }
+    else if(option=='min'){
+        value = validationObj[option]
+        if(item<value) errors.push(`minimum number must be more than ${value}`)
+    }
+    else if(option=='max'){
+        value = validationObj[option]
+        if(item>value) errors.push(`maximum number must be less than ${value}`)
+    }        
+});
+return errors
 }
