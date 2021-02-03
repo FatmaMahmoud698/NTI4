@@ -74,6 +74,9 @@ showAllBtn.addEventListener('click',function(e){
     showHide(showAllBtn, 'allCustomers', 'Show All Customers','Hide Customers')
     showAllCustomers();
 })
+showBtn.addEventListener('click',function(e){
+    showHide(showBtn, 'searchForm', 'Show Customer','Hide Customer')
+})
 document.querySelector('#addForm').addEventListener('submit',function(e){
     e.preventDefault()
     const ele = this.elements
@@ -86,14 +89,10 @@ document.querySelector('#addForm').addEventListener('submit',function(e){
     this.reset()
     showHide()
 })
-showBtn.addEventListener('click',function(e){
-    showHide(showBtn, 'searchForm', 'Show Customer','Hide Customer')
-})
 document.querySelector('#searchAcc').addEventListener('input',function(e){
     let cust= customers.filter(customer=>{
         return customer['accNum']==this.value
     })
-    
     let section = document.querySelector('#singleCustomer')
     section.classList.remove('d-none');
     if(cust.length!=0){
@@ -125,7 +124,6 @@ document.querySelector('#searchAcc').addEventListener('input',function(e){
         section.innerHTML=''
         let div=createNewElement('div',section,'Not Found','bg-danger')     
     }
-    
 })
 document.querySelector('#editForm').addEventListener('submit',function(e){
     e.preventDefault()
@@ -147,17 +145,17 @@ document.querySelector('#balanceForm').addEventListener('submit',function(e){
     saveCustomers()
     showHide()
 })
-const creatBtnEve = function(parent,customer,type,classes,status=false){
-    let btn=createNewElement('button',parent,type,classes)
+const creatBtnEve = function(parent,customer,txt,classes,place=false){
+    let btn=createNewElement('button',parent,txt,classes)
     btn.addEventListener('click', (e)=>{
-        if(type=='edit'){
+        if(txt=='edit'){
             editCustomer(btn,customer)
-        }else if(type=='delete'){
+        }else if(txt=='delete'){
             delCustomer(customer)
-            if(status=='search') parent.parentNode.remove()
-            else if(status=='showAll') showAllCustomers()
-        }else if(type=='Add Balance'||type=='Withdraw Balance'){
-            controlBalance(btn,customer,type)
+            if(place=='search') parent.parentNode.remove()
+            else if(place=='showAll') showAllCustomers()
+        }else if(txt=='Add Balance'||txt=='Withdraw Balance'){
+            controlBalance(btn,customer,txt)
         }
     })
 }
