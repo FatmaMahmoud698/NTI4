@@ -143,10 +143,24 @@ document.querySelector('#editForm').addEventListener('submit',function(e){
     e.preventDefault()
     const ele = this.elements
     let index= ele.editAction.value
-    customers[index]['cName']=ele.cName.value
-    customers[index]['balance']=ele.balance.value
-    saveCustomers()
-    showHide()
+    let cName=ele.cName.value
+    let balance=ele.balance.value
+    myValidators={
+        Name:validateData(cName,{required:true, minlength:5, maxlength:100}),
+        Balance:validateData(balance,{required:true, min:100,max:10000}),
+    }
+    myValidatorsKeys=Object.keys(myValidators);
+    validationErrFlag=false
+    myValidatorsKeys.forEach(key=>{
+        if(myValidators[key].length>0) validationErrFlag=true
+    })
+    if(validationErrFlag) console.log(myValidators)
+    else{
+        customers[index]['cName']=cName
+        customers[index]['balance']=balance
+        saveCustomers()
+        showHide()
+    }
 })
 document.querySelector('#balanceForm').addEventListener('submit',function(e){
     e.preventDefault()
