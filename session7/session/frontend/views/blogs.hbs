@@ -1,0 +1,26 @@
+{{>header}}
+{{>nav}}
+
+<section class="my-3 container">
+    {{lang}}
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{else}}
+    <div class="row">
+        {{#each data}}
+        <div class="col-md-12 col-12 border border-2">
+            <h3>{{this.title}}</h3>
+            <p>{{this.content}}</p>
+            <p>number of reactions: {{this.reactions_count}}</p>
+            <p>number of comments: {{this.comments.length}}</p>
+        <a href="/en/{{this.id}}" class="btn btn-primary">more</a>
+        <a href="/ar" class="btn btn-success float-right">عربي</a>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</section>
+
+{{>footer}}

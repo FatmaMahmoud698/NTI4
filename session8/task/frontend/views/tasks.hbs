@@ -1,0 +1,25 @@
+{{>header}}
+{{>nav}}
+    <section class="container border border-2 my-3">
+        <table class="table table-bordered my-4">
+            <thead>
+                <th>id</th>
+                <th>Task Title</th>
+                <th>Task Content</th>
+                <th>actions</th>
+                {{!-- <th>Control Balance</th> --}}
+            </thead>
+            <tbody>
+                {{#each data as | d |}}
+                    <tr>
+                        <td> {{d._id}} </td>
+                        <td> {{d.title}} </td>
+                        <td> {{d.content}} </td>
+                        <td><a class="btn btn-warning" href="/edit/{{d._id}}">Edit</a>
+                        <a class="btn btn-danger" href="/delete/{{d._id}}">Delete</a> </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+{{>footer}}

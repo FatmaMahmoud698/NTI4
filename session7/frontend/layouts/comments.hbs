@@ -1,0 +1,15 @@
+{{>header}}
+{{>nav}}
+<section class=" my-5 container">
+    {{#if error}}
+        <div class="alert alert-danger">
+            {{error}}
+        </div>
+    {{else}}
+    <div class="row">
+        {{#each data}}
+        <div class="col-3"> {{this.postId}} </div>>
+        {{/each}}
+    </div>    
+    {{/if}}
+{{>footer}}

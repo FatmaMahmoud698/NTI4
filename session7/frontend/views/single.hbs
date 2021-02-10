@@ -1,0 +1,23 @@
+{{>header}}
+{{>nav}}
+<section class=" my-5 container">
+    {{#if error}}
+        <div class="alert alert-danger">
+            {{error}}
+        </div>
+    {{else}}
+        <div class="row">
+                <div class="col-3 border ">
+                    {{data.title}}
+                    {{!-- {{#with data as | d |}}
+                    <h3>{{d.title}}</h3>
+                    <p>{{d.id}}</p>
+                    <a href="/" class="btn btn-primary">back</a>
+                    {{/with}}  --}}
+                </div>   
+        </div>
+    {{/if}}
+
+</section>
+
+{{>footer}}

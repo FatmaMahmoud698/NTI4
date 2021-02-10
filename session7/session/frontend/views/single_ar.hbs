@@ -1,0 +1,31 @@
+{{>header}}
+{{>nav}}
+<section class="my-3 container">
+    {{#if error}}
+    <div class="alert alert-danger text-right">
+        {{error}}
+    </div>
+    {{else}}
+    <div class="row">
+        {{#each data as | d | }}        
+        <div class="col-md-12 col-12 border border-2 text-right">
+            <h3>{{d.title}}</h3>
+            <p>{{d.content}}</p>
+            <p>عدد التفاعل: {{d.reactions_count}}</p>
+            <p>عدد التعليقات: {{d.comments.length}}</p>
+            <a href="/ar" class="btn btn-primary">عودة</a>
+        </div>
+        <h3 class="text-right">التعليقات</h3>
+            {{#each d.comments as | c |}}
+                <div class="col-md-12 col-12 border border-2 text-right bg-light" style="direction: rtl;">
+                    <p>{{c.comment}}</p>
+                    <h6>بواسطة: {{c.user.name}}</h6>
+                    <p>التاريخ: {{c.created_at}}</p>
+                </div>
+            {{/each}}
+        {{/each}}
+    </div>
+    {{/if}}
+</section>
+
+{{>footer}}

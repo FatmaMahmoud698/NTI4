@@ -1,0 +1,31 @@
+{{>header}}
+{{>nav}}
+<section class="my-3 container">
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{else}}
+    <div class="row">
+        {{#each data as | d | }}        
+        <div class="col-md-12 col-12 border border-2">
+            <h3>{{d.title}}</h3>
+            <p>{{d.content}}</p>
+            <p>number of reactions: {{d.reactions_count}}</p>
+            <p>number of comments: {{d.comments.length}}</p>
+            <a href="/" class="btn btn-primary">back</a>
+        </div>
+        <h3>Comments</h3>
+            {{#each d.comments as | c |}}
+                <div class="col-md-12 col-12 border border-2 bg-light" >
+                    <p>{{c.comment}}</p>
+                    <h6>by: {{c.user.name}}</h6>
+                    <p>created at: {{c.created_at}}</p>
+                </div>
+            {{/each}}
+        {{/each}}
+    </div>
+    {{/if}}
+</section>
+
+{{>footer}}

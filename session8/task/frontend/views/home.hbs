@@ -1,0 +1,32 @@
+{{>header}}
+{{>nav}}
+{{#if editTask}}
+    <section class="container border border-2 my-3">
+        <form class="p-2" method="post" action="/edit/{{editTask._id}}">
+            <div class="mb-3">
+                <label class="form-label">Task Title</label>
+                <input type="text" class="form-control" placeholder="Task title" name="title" value="{{editTask.title}}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Task Content</label>
+                <input type="text" class="form-control" placeholder="Task Content" name="content" value="{{editTask.content}}">
+              </div>
+              <button type="submit" class="btn btn-success" >Edit task</button>
+        </form>
+    </section>
+{{else}}   
+    <section class="container border border-2 my-3">
+        <form class="p-2" method="post" action="/addTask">
+            <div class="mb-3">
+                <label class="form-label">Task Title</label>
+                <input type="text" class="form-control" placeholder="Task title" name="title">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Task Content</label>
+                <input type="text" class="form-control" placeholder="Task Content" name="content">
+              </div>
+              <button type="submit" class="btn btn-success" >add task</button>
+        </form>
+    </section>
+{{/if}}
+{{>footer}}

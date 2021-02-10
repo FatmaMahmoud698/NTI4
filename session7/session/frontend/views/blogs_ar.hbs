@@ -1,0 +1,26 @@
+{{>header}}
+{{>nav}}
+
+<section class="my-3 container">
+    {{lang}}
+    {{#if error}}
+    <div class="alert alert-danger text-right">
+        {{error}}
+    </div>
+    {{else}}
+    <div class="row">
+        {{#each data}}
+        <div class="col-md-12 col-12 border border-2 text-right">
+            <h3>{{this.title}}</h3>
+            <p>{{this.content}}</p>
+            <p>عدد التفاعل:  {{this.reactions_count}}</p>
+            <p>عدد التعليقات: {{this.comments.length}}</p>
+        <a href="/ar/{{this.id}}" class="btn btn-primary float-left">المزيد</a>
+        <a href="/" class="btn btn-success">en</a>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</section>
+
+{{>footer}}
